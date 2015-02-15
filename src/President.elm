@@ -54,10 +54,10 @@ displaySlide slides page =
     [] -> voidSlide
     s :: t -> s
 
-{--
-A signal that displays each of the signals in the `slides` list
+{-|
+A signal that displays each of the signals in the list
 as a slide. This may be navigated with the arrow keys.
---}
+-}
 present: List (Signal Element) -> Signal Element
 present slides = 
   let lastSlide = length slides - 1
