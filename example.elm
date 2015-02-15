@@ -1,0 +1,23 @@
+import Signal (Signal,constant, (<~))
+import Text (..)
+import Time
+import Graphics.Element (Element)
+import Graphics.Collage (..)
+import President
+
+animation t = 
+  collage 800 800 [
+    fromString "Animations!" |> typeface ["Comic Sans MS"] 
+    |> height 120 |> centered |> toForm |> rotate (sin (t/250) * 0.2)
+    ]
+
+slides: List (Signal Element)
+slides = [
+  constant <| centered <| height 120 
+    <| fromString "Use left/right arrow keys to navigate",
+  animation <~ Time.every (60*Time.millisecond),
+  constant <| centered <| height 120 
+    <| fromString "Use up/down arrow keys to go to beginning/end"
+  ]
+
+main = President.present slides
