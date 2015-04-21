@@ -9,15 +9,15 @@ that you can navigate with arrow keys. That's about it.
 -}
 
 import Text
-import Text (..)
-import List (..)
-import Signal (Signal, (<~), (~), constant, foldp)
-import Graphics.Element (..)
-import Graphics.Collage (..)
+import Text exposing (..)
+import List exposing (..)
+import Signal exposing (Signal, (<~), (~), constant, foldp)
+import Graphics.Element exposing (..)
+import Graphics.Collage exposing (..)
 import Keyboard
 import Debug
-import Signal.Extra (applyMany)
-import Window (dimensions)
+import Signal.Extra exposing (applyMany)
+import Window exposing (dimensions)
 
 type Control = Top | Bottom | Previous | Next | None
 
@@ -39,8 +39,10 @@ controlAction {x,y} = case (x,y) of
   (_, -1) -> Bottom
   _ -> None
 
-chooseSlide: Int -> (List a -> a)
-chooseSlide page = drop page >> head
+chooseSlide: a -> Int -> List a -> a
+chooseSlide default page slides = case drop page slides of
+  [] -> default
+  slide :: _ -> slide
 
 positioning (w,h) slide = container w h middle slide 
 
@@ -63,5 +65,5 @@ present slides =
   let lastSlide = length slides - 1
       controls = controlAction <~ Keyboard.arrows
       currentSlide = foldp (updateSlide lastSlide) 0 controls
-      theActualSlideSignal = applyMany (chooseSlide <~ currentSlide) slides
+      theActualSlideSignal = applyMany ((chooseSlide voidSlide) <~ currentSlide) slides
   in positioning <~ dimensions ~ theActualSlideSignal

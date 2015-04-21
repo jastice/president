@@ -1,8 +1,8 @@
-import Signal (Signal,constant, (<~))
-import Text (..)
+import Signal exposing (Signal,constant, (<~))
+import Text exposing (..)
 import Time
-import Graphics.Element (Element)
-import Graphics.Collage (..)
+import Graphics.Element exposing (Element, centered)
+import Graphics.Collage exposing (..)
 import President
 
 animation t = 
