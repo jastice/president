@@ -1,18 +1,17 @@
 {
-    "version": "1.0.1",
+    "version": "1.1.0",
     "summary": "A simple way to turn your Elm code into a presentation.",
     "repository": "https://github.com/jastice/president.git",
     "license": "BSD3",
     "source-directories": [
-        "src",
-        "example"
+        "src"
     ],
     "exposed-modules": [
         "President"
     ],
     "dependencies": {
-        "Apanatshka/elm-signal-extra": "3.2.0 <= v < 4.0.0",
-        "elm-lang/core": "2.0.0 <= v < 3.0.0"
+        "Apanatshka/elm-signal-extra": "5.7.0 <= v < 6.0.0",
+        "elm-lang/core": "3.0.0 <= v < 4.0.0"
     },
-    "elm-version": "0.15.0 <= v < 0.16.0"
+    "elm-version": "0.16.0 <= v < 0.17.0"
 }

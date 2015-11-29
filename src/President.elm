@@ -1,17 +1,18 @@
 module President(present,voidSlide) where
+
 {-| 
 
 President turns a `List (Signal Element)` into a presentation
 that you can navigate with arrow keys. That's about it.
 
-@docs present
+@docs present, voidSlide
 
 -}
 
 import Text
 import Text exposing (..)
 import List exposing (..)
-import Signal exposing (Signal, (<~), (~), constant, foldp)
+import Signal exposing (Signal, constant, foldp)
 import Graphics.Element exposing (..)
 import Graphics.Collage exposing (..)
 import Keyboard
@@ -46,6 +47,8 @@ chooseSlide default page slides = case drop page slides of
 
 positioning (w,h) slide = container w h middle slide 
 
+{-| A default almost-empty slide that is needed as workaround for a bug in Elm. -}
+voidSlide: Element
 voidSlide = fromString "..." |> Text.height 180 |> centered
 
 -- signals
@@ -63,7 +66,7 @@ as a slide. This may be navigated with the arrow keys.
 present: List (Signal Element) -> Signal Element
 present slides = 
   let lastSlide = length slides - 1
-      controls = controlAction <~ Keyboard.arrows
+      controls = Signal.map controlAction Keyboard.arrows
       currentSlide = foldp (updateSlide lastSlide) 0 controls
-      theActualSlideSignal = applyMany ((chooseSlide voidSlide) <~ currentSlide) slides
-  in positioning <~ dimensions ~ theActualSlideSignal
+      theActualSlideSignal = applyMany (Signal.map (chooseSlide voidSlide) currentSlide) slides
+  in Signal.map2 positioning dimensions theActualSlideSignal

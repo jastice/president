@@ -1,4 +1,4 @@
-import Signal exposing (Signal,constant, (<~))
+import Signal exposing (Signal,constant)
 import Text exposing (..)
 import Time
 import Graphics.Element exposing (Element, centered)
@@ -15,7 +15,7 @@ slides: List (Signal Element)
 slides = [
   constant <| centered <| height 120 
     <| fromString "Use left/right arrow keys to navigate",
-  animation <~ Time.every (60*Time.millisecond),
+  Signal.map animation (Time.every (60*Time.millisecond)),
   constant <| centered <| height 120 
     <| fromString "Use up/down arrow keys to go to beginning/end"
   ]
